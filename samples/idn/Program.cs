@@ -129,7 +129,7 @@ namespace idn
             logCancelToken.Cancel();
             try
             { await logTask; }
-            finally { Console.WriteLine("goodbye!"); }
+            finally { Console.WriteLine("goodbye!!"); }
         }
 
         static IEnumerable<Assembly> GetAssemblies()
