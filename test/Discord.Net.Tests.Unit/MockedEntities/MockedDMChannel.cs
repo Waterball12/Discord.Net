@@ -53,6 +53,10 @@ namespace Discord
             throw new NotImplementedException();
         }
 
+        public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(ulong? fromMessageId, Direction dir, int limit = DiscordConfig.MaxMessagesPerBatch,
+            CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null) =>
+            throw new NotImplementedException();
+
         public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(IMessage fromMessage, Direction dir, int limit = 100, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
             throw new NotImplementedException();

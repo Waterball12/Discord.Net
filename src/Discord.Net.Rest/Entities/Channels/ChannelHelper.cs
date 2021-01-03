@@ -132,6 +132,7 @@ namespace Discord.Rest
             var author = MessageHelper.GetAuthor(client, guild, model.Author.Value, model.WebhookId.ToNullable());
             return RestMessage.Create(client, channel, author, model);
         }
+
         public static IAsyncEnumerable<IReadOnlyCollection<RestMessage>> GetMessagesAsync(IMessageChannel channel, BaseDiscordClient client,
             ulong? fromMessageId, Direction dir, int limit, RequestOptions options)
         {
@@ -317,6 +318,33 @@ namespace Discord.Rest
             }
         }
 
+        public static async Task DeleteMessagesAsync(ulong channelId, BaseDiscordClient client,
+            IEnumerable<ulong> messageIds, RequestOptions options)
+        {
+            const int BATCH_SIZE = 100;
+
+            var msgs = messageIds.ToArray();
+            int batches = msgs.Length / BATCH_SIZE;
+            for (int i = 0; i <= batches; i++)
+            {
+                ArraySegment<ulong> batch;
+                if (i < batches)
+                {
+                    batch = new ArraySegment<ulong>(msgs, i * BATCH_SIZE, BATCH_SIZE);
+                }
+                else
+                {
+                    batch = new ArraySegment<ulong>(msgs, i * BATCH_SIZE, msgs.Length - batches * BATCH_SIZE);
+                    if (batch.Count == 0)
+                    {
+                        break;
+                    }
+                }
+                var args = new DeleteMessagesParams(batch.ToArray());
+                await client.ApiClient.DeleteMessagesAsync(channelId, args, options).ConfigureAwait(false);
+            }
+        }
+
         //Permission Overwrites
         public static async Task AddPermissionOverwriteAsync(IGuildChannel channel, BaseDiscordClient client,
             IUser user, OverwritePermissions perms, RequestOptions options)
@@ -393,6 +421,13 @@ namespace Discord.Rest
         {
             await client.ApiClient.TriggerTypingIndicatorAsync(channel.Id, options).ConfigureAwait(false);
         }
+
+        public static async Task TriggerTypingAsync(ulong channelId, BaseDiscordClient client,
+            RequestOptions options = null)
+        {
+            await client.ApiClient.TriggerTypingIndicatorAsync(channelId, options).ConfigureAwait(false);
+        }
+
         public static IDisposable EnterTypingState(IMessageChannel channel, BaseDiscordClient client,
             RequestOptions options)
             => new TypingNotifier(channel, options);

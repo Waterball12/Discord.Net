@@ -254,6 +254,15 @@ namespace Discord.Rest
             else
                 return AsyncEnumerable.Empty<IReadOnlyCollection<IMessage>>();
         }
+
+        IAsyncEnumerable<IReadOnlyCollection<IMessage>> IMessageChannel.GetMessagesAsync(ulong? fromMessageId, Direction dir, int limit, CacheMode mode, RequestOptions options)
+        {
+            if (mode == CacheMode.AllowDownload)
+                return AsyncEnumerable.Empty<IReadOnlyCollection<IMessage>>();
+            else
+                return AsyncEnumerable.Empty<IReadOnlyCollection<IMessage>>();
+        }
+
         /// <inheritdoc />
         IAsyncEnumerable<IReadOnlyCollection<IMessage>> IMessageChannel.GetMessagesAsync(IMessage fromMessage, Direction dir, int limit, CacheMode mode, RequestOptions options)
         {

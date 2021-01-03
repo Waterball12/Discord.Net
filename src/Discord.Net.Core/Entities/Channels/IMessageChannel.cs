@@ -193,6 +193,10 @@ namespace Discord
         /// </returns>
         IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(ulong fromMessageId, Direction dir, int limit = DiscordConfig.MaxMessagesPerBatch, 
             CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null);
+
+        IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(ulong? fromMessageId, Direction dir, int limit = DiscordConfig.MaxMessagesPerBatch, 
+            CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null);
+
         /// <summary>
         ///     Gets a collection of messages in this channel.
         /// </summary>

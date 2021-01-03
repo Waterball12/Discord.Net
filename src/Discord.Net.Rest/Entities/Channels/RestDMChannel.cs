@@ -188,6 +188,11 @@ namespace Discord.Rest
             else
                 return AsyncEnumerable.Empty<IReadOnlyCollection<IMessage>>();
         }
+
+        public IAsyncEnumerable<IReadOnlyCollection<IMessage>> GetMessagesAsync(ulong? fromMessageId, Direction dir, int limit = DiscordConfig.MaxMessagesPerBatch,
+            CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null) =>
+            throw new NotImplementedException();
+
         /// <inheritdoc />
         IAsyncEnumerable<IReadOnlyCollection<IMessage>> IMessageChannel.GetMessagesAsync(IMessage fromMessage, Direction dir, int limit, CacheMode mode, RequestOptions options)
         {

@@ -1966,6 +1966,41 @@ namespace Discord.WebSocket
             }
         }
 
+        public Task DeleteMessageAsync(ulong channelId, ulong messageId, RequestOptions options = null)
+        {
+            return MessageHelper.DeleteAsync(channelId, messageId, this, options);
+        }
+
+        public Task PinAsync(ulong channelId, ulong messageId, RequestOptions options = null)
+        {
+            return MessageHelper.PinAsync(channelId, messageId, this, options);
+        }
+
+        public Task UnPinAsync(ulong channelId, ulong messageId, RequestOptions options = null)
+        {
+            return MessageHelper.UnpinAsync(channelId, messageId, this, options);
+        }
+
+        public Task SuppressEmbed(ulong channelId, ulong messageId, bool suppress, RequestOptions options = null)
+        {
+            return MessageHelper.SuppressEmbedsAsync(channelId, messageId, this, suppress, options);
+        }
+
+        public Task AddReactionAsync(ulong channelId, ulong messageId, string emoji, RequestOptions options = null)
+        {
+            return MessageHelper.AddReactionAsync(channelId, messageId, emoji, this, options);
+        }
+
+        public Task DeleteMessageAsync(ulong channelId, IEnumerable<ulong> messageId , RequestOptions options = null)
+        {
+            return ChannelHelper.DeleteMessagesAsync(channelId, this, messageId, options);
+        }
+
+        public Task TriggerTyping(ulong channelId, RequestOptions options = null)
+        {
+            return ChannelHelper.TriggerTypingAsync(channelId, this, options);
+        }
+
         private async Task TimedInvokeAsync(AsyncEvent<Func<Task>> eventHandler, string name)
         {
             if (eventHandler.HasSubscribers)

@@ -89,9 +89,23 @@ namespace Discord.Rest
             await client.ApiClient.SuppressEmbedAsync(msg.Channel.Id, msg.Id, apiArgs, options).ConfigureAwait(false);
         }
 
+        public static async Task SuppressEmbedsAsync(ulong channelId, ulong messageId, BaseDiscordClient client, bool suppress, RequestOptions options)
+        {
+            var apiArgs = new API.Rest.SuppressEmbedParams
+            {
+                Suppressed = suppress
+            };
+            await client.ApiClient.SuppressEmbedAsync(channelId, messageId, apiArgs, options).ConfigureAwait(false);
+        }
+
         public static async Task AddReactionAsync(IMessage msg, IEmote emote, BaseDiscordClient client, RequestOptions options)
         {
             await client.ApiClient.AddReactionAsync(msg.Channel.Id, msg.Id, emote is Emote e ? $"{e.Name}:{e.Id}" : UrlEncode(emote.Name), options).ConfigureAwait(false);
+        }
+
+        public static async Task AddReactionAsync(ulong channelId, ulong messageId, string emoji, BaseDiscordClient client, RequestOptions options)
+        {
+            await client.ApiClient.AddReactionAsync(channelId, messageId, emoji, options).ConfigureAwait(false);
         }
 
         public static async Task RemoveReactionAsync(IMessage msg, ulong userId, IEmote emote, BaseDiscordClient client, RequestOptions options)
@@ -157,10 +171,22 @@ namespace Discord.Rest
             await client.ApiClient.AddPinAsync(msg.Channel.Id, msg.Id, options).ConfigureAwait(false);
         }
 
+        public static async Task PinAsync(ulong channelId, ulong messageId, BaseDiscordClient client,
+            RequestOptions options)
+        {
+            await client.ApiClient.AddPinAsync(channelId, messageId, options).ConfigureAwait(false);
+        }
+
         public static async Task UnpinAsync(IMessage msg, BaseDiscordClient client,
             RequestOptions options)
         {
             await client.ApiClient.RemovePinAsync(msg.Channel.Id, msg.Id, options).ConfigureAwait(false);
+        }
+
+        public static async Task UnpinAsync(ulong channelId, ulong messageId, BaseDiscordClient client,
+            RequestOptions options)
+        {
+            await client.ApiClient.RemovePinAsync(channelId, messageId, options).ConfigureAwait(false);
         }
 
         public static ImmutableArray<ITag> ParseTags(string text, IMessageChannel channel, IGuild guild, IReadOnlyCollection<IUser> userMentions)
