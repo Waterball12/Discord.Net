@@ -11,8 +11,7 @@ namespace Discord.Rest
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
     public class RestApplication : RestEntity<ulong>, IApplication
     {
-        protected string _iconId;
-
+        public string IconId { get; private set; }
         /// <inheritdoc />
         public string Name { get; private set; }
         /// <inheritdoc />
@@ -34,7 +33,7 @@ namespace Discord.Rest
         /// <inheritdoc />
         public DateTimeOffset CreatedAt => SnowflakeUtils.FromSnowflake(Id);
         /// <inheritdoc />
-        public string IconUrl => CDN.GetApplicationIconUrl(Id, _iconId);
+        public string IconUrl => CDN.GetApplicationIconUrl(Id, IconId);
 
         internal RestApplication(BaseDiscordClient discord, ulong id)
             : base(discord, id)
@@ -51,7 +50,7 @@ namespace Discord.Rest
             Description = model.Description;
             RPCOrigins = model.RPCOrigins;
             Name = model.Name;
-            _iconId = model.Icon;
+            IconId = model.Icon;
             IsBotPublic = model.IsBotPublic;
             BotRequiresCodeGrant = model.BotRequiresCodeGrant;
 

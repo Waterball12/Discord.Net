@@ -39,5 +39,7 @@ namespace Discord
         ///     Gets the partial user object containing info on the owner of the application.
         /// </summary>
         IUser Owner { get; }
+
+        string IconId {get;}
     }
 }
