@@ -5,6 +5,7 @@ using Discord.Net.Converters;
 using Discord.Net.Udp;
 using Discord.Net.WebSockets;
 using Discord.Rest;
+using Discord.Rest.Entities.Messages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -1966,6 +1967,12 @@ namespace Discord.WebSocket
             }
         }
 
+        public Task<MessageChunk> SendDmMessage(ulong channelId, string text, bool isTTS, Embed embed, AllowedMentions allowedMentions, MessageReference messageReference, RequestOptions options)
+        {
+            return ChannelHelper.SendMessageAsync(channelId, this, text, isTTS, embed, allowedMentions,
+                messageReference, options);
+        }
+
         public Task DeleteMessageAsync(ulong channelId, ulong messageId, RequestOptions options = null)
         {
             return MessageHelper.DeleteAsync(channelId, messageId, this, options);
@@ -1989,6 +1996,26 @@ namespace Discord.WebSocket
         public Task AddReactionAsync(ulong channelId, ulong messageId, string emoji, RequestOptions options = null)
         {
             return MessageHelper.AddReactionAsync(channelId, messageId, emoji, this, options);
+        }
+
+        public Task AddRolesAsync(ulong guildId, ulong userId, IEnumerable<ulong> roles, RequestOptions options = null)
+        {
+            return UserHelper.AddRolesAsync(guildId, userId, this, roles, options);
+        }
+
+        public Task KickUserAsync(ulong guildId, ulong userId, string reason = null, RequestOptions options = null)
+        {
+            return UserHelper.KickAsync(guildId, userId, this, reason, options);
+        }
+
+        public Task<RestDMChannel> CreateDmChannelAsync(ulong userId, RequestOptions options = null)
+        {
+            return UserHelper.CreateDMChannelAsync(userId, this, options);
+        }
+
+        public Task RemoveRolesAsync(ulong guildId, ulong userId, IEnumerable<ulong> roles, RequestOptions options = null)
+        {
+            return UserHelper.RemoveRolesAsync(guildId, userId, this, roles, options);
         }
 
         public Task DeleteMessageAsync(ulong channelId, IEnumerable<ulong> messageId , RequestOptions options = null)

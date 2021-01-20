@@ -66,10 +66,23 @@ namespace Discord.Rest
             await client.ApiClient.RemoveGuildMemberAsync(user.GuildId, user.Id, reason, options).ConfigureAwait(false);
         }
 
+        public static async Task KickAsync(ulong guildId, ulong userId, BaseDiscordClient client,
+            string reason, RequestOptions options)
+        {
+            await client.ApiClient.RemoveGuildMemberAsync(guildId, userId, reason, options).ConfigureAwait(false);
+        }
+
         public static async Task<RestDMChannel> CreateDMChannelAsync(IUser user, BaseDiscordClient client,
             RequestOptions options)
         {
             var args = new CreateDMChannelParams(user.Id);
+            return RestDMChannel.Create(client, await client.ApiClient.CreateDMChannelAsync(args, options).ConfigureAwait(false));
+        }
+
+        public static async Task<RestDMChannel> CreateDMChannelAsync(ulong userId, BaseDiscordClient client,
+            RequestOptions options)
+        {
+            var args = new CreateDMChannelParams(userId);
             return RestDMChannel.Create(client, await client.ApiClient.CreateDMChannelAsync(args, options).ConfigureAwait(false));
         }
 
@@ -83,6 +96,18 @@ namespace Discord.Rest
         {
             foreach (var role in roles)
                 await client.ApiClient.RemoveRoleAsync(user.Guild.Id, user.Id, role.Id, options).ConfigureAwait(false);
+        }
+
+        public static async Task AddRolesAsync(ulong guildId, ulong userId, BaseDiscordClient client, IEnumerable<ulong> roles, RequestOptions options)
+        {
+            foreach (var role in roles)
+                await client.ApiClient.AddRoleAsync(guildId, userId, role, options).ConfigureAwait(false);
+        }
+
+        public static async Task RemoveRolesAsync(ulong guildId, ulong userId, BaseDiscordClient client, IEnumerable<ulong> roles, RequestOptions options)
+        {
+            foreach (var role in roles)
+                await client.ApiClient.RemoveRoleAsync(guildId, userId, role, options).ConfigureAwait(false);
         }
     }
 }
