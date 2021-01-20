@@ -1,4 +1,6 @@
+using Discord.API;
 using Discord.API.Rest;
+using Discord.Rest.Entities.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -225,6 +227,35 @@ namespace Discord.Rest
             var args = new CreateMessageParams(text) { IsTTS = isTTS, Embed = embed?.ToModel(), AllowedMentions = allowedMentions?.ToModel(), MessageReference = messageReference?.ToModel() };
             var model = await client.ApiClient.CreateMessageAsync(channel.Id, args, options).ConfigureAwait(false);
             return RestUserMessage.Create(client, channel, client.CurrentUser, model);
+        }
+
+        /// <exception cref="ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="DiscordConfig.MaxMessageSize"/>.</exception>
+        public static async Task<MessageChunk> SendMessageAsync(ulong channelId, BaseDiscordClient client,
+            string text, bool isTTS, Embed embed, AllowedMentions allowedMentions, MessageReference messageReference, RequestOptions options)
+        {
+            Preconditions.AtMost(allowedMentions?.RoleIds?.Count ?? 0, 100, nameof(allowedMentions.RoleIds), "A max of 100 role Ids are allowed.");
+            Preconditions.AtMost(allowedMentions?.UserIds?.Count ?? 0, 100, nameof(allowedMentions.UserIds), "A max of 100 user Ids are allowed.");
+
+            // check that user flag and user Id list are exclusive, same with role flag and role Id list
+            if (allowedMentions != null && allowedMentions.AllowedTypes.HasValue)
+            {
+                if (allowedMentions.AllowedTypes.Value.HasFlag(AllowedMentionTypes.Users) &&
+                    allowedMentions.UserIds != null && allowedMentions.UserIds.Count > 0)
+                {
+                    throw new ArgumentException("The Users flag is mutually exclusive with the list of User Ids.", nameof(allowedMentions));
+                }
+
+                if (allowedMentions.AllowedTypes.Value.HasFlag(AllowedMentionTypes.Roles) &&
+                    allowedMentions.RoleIds != null && allowedMentions.RoleIds.Count > 0)
+                {
+                    throw new ArgumentException("The Roles flag is mutually exclusive with the list of Role Ids.", nameof(allowedMentions));
+                }
+            }
+
+            var args = new CreateMessageParams(text) { IsTTS = isTTS, Embed = embed?.ToModel(), AllowedMentions = allowedMentions?.ToModel(), MessageReference = messageReference?.ToModel() };
+            var model = await client.ApiClient.CreateMessageAsync(channelId, args, options).ConfigureAwait(false);
+
+            return MessageChunk.Create(model);
         }
 
         /// <exception cref="ArgumentException">
