@@ -14,6 +14,7 @@ namespace Discord.Logging
         {
             _manager = manager;
             Name = name;
+            var d = "";
         }
 
         public Task LogAsync(LogSeverity severity, Exception exception = null)
