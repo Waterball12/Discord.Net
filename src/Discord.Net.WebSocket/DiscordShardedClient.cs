@@ -328,7 +328,7 @@ namespace Discord.WebSocket
 
         private void RegisterEvents(DiscordSocketClient client, bool isPrimary)
         {
-            client.Log += (msg) => _logEvent.InvokeAsync(msg);
+            //client.Log += (msg) => _logEvent.InvokeAsync(msg);
             client.LoggedOut += () =>
             {
                 var state = LoginState;
