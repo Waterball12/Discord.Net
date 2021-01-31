@@ -26,7 +26,7 @@ namespace Discord.Rest.Entities.Messages
         internal void Update(Model model)
         {
             Id = model.Id;
-
+            CreatedAt = SnowflakeUtils.FromSnowflake(Id);
 
             if (model.IsTextToSpeech.IsSpecified)
                 IsTTS = model.IsTextToSpeech.Value;
@@ -38,6 +38,9 @@ namespace Discord.Rest.Entities.Messages
                 MentionedEveryone = model.MentionEveryone.Value;
             if (model.RoleMentions.IsSpecified)
                 MentionedRoleIds = model.RoleMentions.Value.ToImmutableArray();
+
+            MentionedUserIds = new List<ulong>();
+            MentionedChannelIds = new List<ulong>();
 
             if (model.Attachments.IsSpecified)
             {

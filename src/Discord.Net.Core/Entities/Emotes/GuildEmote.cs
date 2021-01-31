@@ -39,7 +39,15 @@ namespace Discord
         /// </returns>
         public ulong? CreatorId { get; }
 
-        internal GuildEmote(ulong id, string name, bool animated, bool isManaged, bool requireColons, IReadOnlyList<ulong> roleIds, ulong? userId) : base(id, name, animated)
+        //internal GuildEmote(ulong id, string name, bool animated, bool isManaged, bool requireColons, IReadOnlyList<ulong> roleIds, ulong? userId) : base(id, name, animated)
+        //{
+        //    IsManaged = isManaged;
+        //    RequireColons = requireColons;
+        //    RoleIds = roleIds;
+        //    CreatorId = userId;
+        //}
+
+        public GuildEmote(ulong id, string name, bool animated, bool isManaged, bool requireColons, IReadOnlyList<ulong> roleIds, ulong? userId) : base(id, name, animated)
         {
             IsManaged = isManaged;
             RequireColons = requireColons;

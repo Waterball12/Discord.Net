@@ -2009,6 +2009,10 @@ namespace Discord.WebSocket
                 messageReference, options);
         }
 
+        public Task ModifyMessageAsync(ulong channelId, ulong messageId, MessageProperties msg,
+            RequestOptions options = null)
+            => MessageHelper.ModifyAsync(channelId, messageId, msg, this, options);
+
         public Task DeleteMessageAsync(ulong channelId, ulong messageId, RequestOptions options = null)
         {
             return MessageHelper.DeleteAsync(channelId, messageId, this, options);

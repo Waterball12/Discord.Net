@@ -71,6 +71,18 @@ namespace Discord.Rest
             return await client.ApiClient.ModifyMessageAsync(msg.Channel.Id, msg.Id, apiArgs, options).ConfigureAwait(false);
         }
 
+        public static async Task<Model> ModifyAsync(ulong channelId, ulong messageId, MessageProperties props, BaseDiscordClient client, RequestOptions options)
+        {
+            var apiArgs = new API.Rest.ModifyMessageParams
+            {
+                Content = props.Content,
+                Embed = props.Embed.IsSpecified ? props.Embed.Value.ToModel() : Optional.Create<API.Embed>(),
+                Flags = props.Flags.IsSpecified ? props.Flags.Value : Optional.Create<MessageFlags?>(),
+                AllowedMentions = props.AllowedMentions.IsSpecified ? props.AllowedMentions.Value.ToModel() : Optional.Create<API.AllowedMentions>(),
+            };
+            return await client.ApiClient.ModifyMessageAsync(channelId, messageId, apiArgs, options).ConfigureAwait(false);
+        }
+
         public static Task DeleteAsync(IMessage msg, BaseDiscordClient client, RequestOptions options)
             => DeleteAsync(msg.Channel.Id, msg.Id, client, options);
 
