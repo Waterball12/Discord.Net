@@ -67,14 +67,12 @@ namespace Discord.WebSocket
             => ChannelHelper.ModifyAsync(this, Discord, func, options);
 
         /// <inheritdoc />
-        public async Task<IAudioClient> ConnectAsync(bool selfDeaf = false, bool selfMute = false, bool external = false)
-        {
-            return await Guild.ConnectAudioAsync(Id, selfDeaf, selfMute, external).ConfigureAwait(false);
-        }
+        public Task<IAudioClient> ConnectAsync(bool selfDeaf = false, bool selfMute = false,
+            bool external = false)
+            => throw new NotImplementedException();
 
         /// <inheritdoc />
-        public async Task DisconnectAsync()
-            => await Guild.DisconnectAudioAsync();
+        public Task DisconnectAsync() => throw new NotImplementedException();
 
         /// <inheritdoc />
         public override SocketGuildUser GetUser(ulong id)

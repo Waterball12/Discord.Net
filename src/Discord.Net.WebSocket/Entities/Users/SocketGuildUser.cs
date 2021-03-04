@@ -79,7 +79,6 @@ namespace Discord.WebSocket
         ///     connected to a voice channel.
         /// </returns>
         public SocketVoiceState? VoiceState => Guild.GetVoiceState(Id);
-        public AudioInStream AudioStream => Guild.GetAudioStream(Id);
         /// <inheritdoc />
         public DateTimeOffset? PremiumSince => DateTimeUtils.FromTicks(_premiumSinceTicks);
 
