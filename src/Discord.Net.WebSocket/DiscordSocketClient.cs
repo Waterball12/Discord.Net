@@ -1762,14 +1762,7 @@ namespace Discord.WebSocket
 
                                     if (isCached)
                                     {
-                                        var endpoint = data.Endpoint;
-
-                                        //Only strip out the port if the endpoint contains it
-                                        var portBegin = endpoint.LastIndexOf(':');
-                                        if (portBegin > 0)
-                                            endpoint = endpoint.Substring(0, portBegin);
-
-                                        var _ = guild.FinishConnectAudio(endpoint, data.Token).ConfigureAwait(false);
+                                        // Ignored
                                     }
                                     else
                                     {
@@ -2007,6 +2000,13 @@ namespace Discord.WebSocket
         {
             return ChannelHelper.SendMessageAsync(channelId, this, text, isTTS, embed, allowedMentions,
                 messageReference, options);
+        }
+
+        public async Task<IDMChannel> GetOrCreateDmChannel(ulong userId, RequestOptions options = null)
+        {
+            var dmChannel = State?.GetDMChannel(userId);
+
+            return dmChannel ?? await UserHelper.CreateDMChannelAsync(userId, this, options).ConfigureAwait(false) as IDMChannel;
         }
 
         public Task ModifyMessageAsync(ulong channelId, ulong messageId, MessageProperties msg,
