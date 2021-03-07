@@ -5,7 +5,7 @@ namespace Discord
     /// <summary>
     ///     Represents a generic private group channel.
     /// </summary>
-    public interface IGroupChannel : IMessageChannel, IPrivateChannel, IAudioChannel
+    public interface IGroupChannel : IMessageChannel, IPrivateChannel
     {
         /// <summary>
         ///     Leaves this group.

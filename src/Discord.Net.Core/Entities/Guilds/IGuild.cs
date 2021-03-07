@@ -1,4 +1,3 @@
-using Discord.Audio;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -207,13 +206,6 @@ namespace Discord
         ///     A string containing the identifier for the voice region that this guild uses (e.g. <c>eu-central</c>).
         /// </returns>
         string VoiceRegionId { get; }
-        /// <summary>
-        ///     Gets the <see cref="IAudioClient"/> currently associated with this guild.
-        /// </summary>
-        /// <returns>
-        ///     An <see cref="IAudioClient"/> currently associated with this guild.
-        /// </returns>
-        IAudioClient AudioClient { get; }
         /// <summary>
         ///     Gets the built-in role containing all users in this guild.
         /// </summary>

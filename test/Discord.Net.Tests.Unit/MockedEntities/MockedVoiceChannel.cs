@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Discord.Audio;
 
 namespace Discord
 {
@@ -34,11 +33,6 @@ namespace Discord
         }
 
         public Task AddPermissionOverwriteAsync(IUser user, OverwritePermissions permissions, RequestOptions options = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IAudioClient> ConnectAsync(bool selfDeaf = false, bool selfMute = false, bool external = false)
         {
             throw new NotImplementedException();
         }

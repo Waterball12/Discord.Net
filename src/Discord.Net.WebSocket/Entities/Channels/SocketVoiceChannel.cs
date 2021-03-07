@@ -1,4 +1,3 @@
-using Discord.Audio;
 using Discord.Rest;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ namespace Discord.WebSocket
     ///     Represents a WebSocket-based voice channel in a guild.
     /// </summary>
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
-    public class SocketVoiceChannel : SocketGuildChannel, IVoiceChannel, ISocketAudioChannel
+    public class SocketVoiceChannel : SocketGuildChannel, IVoiceChannel
     {
         /// <inheritdoc />
         public int Bitrate { get; private set; }
@@ -65,14 +64,6 @@ namespace Discord.WebSocket
         /// <inheritdoc />
         public Task ModifyAsync(Action<VoiceChannelProperties> func, RequestOptions options = null)
             => ChannelHelper.ModifyAsync(this, Discord, func, options);
-
-        /// <inheritdoc />
-        public Task<IAudioClient> ConnectAsync(bool selfDeaf = false, bool selfMute = false,
-            bool external = false)
-            => throw new NotImplementedException();
-
-        /// <inheritdoc />
-        public Task DisconnectAsync() => throw new NotImplementedException();
 
         /// <inheritdoc />
         public override SocketGuildUser GetUser(ulong id)

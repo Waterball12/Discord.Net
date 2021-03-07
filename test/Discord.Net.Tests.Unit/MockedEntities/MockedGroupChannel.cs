@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Discord.Audio;
 
 namespace Discord
 {
@@ -15,11 +14,6 @@ namespace Discord
         public DateTimeOffset CreatedAt => throw new NotImplementedException();
 
         public ulong Id => throw new NotImplementedException();
-
-        public Task<IAudioClient> ConnectAsync(bool selfDeaf = false, bool selfMute = false, bool external = false)
-        {
-            throw new NotImplementedException();
-        }
 
         public Task DeleteMessageAsync(ulong messageId, RequestOptions options = null)
         {

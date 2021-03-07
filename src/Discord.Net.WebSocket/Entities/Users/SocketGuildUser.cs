@@ -1,4 +1,3 @@
-using Discord.Audio;
 using Discord.Rest;
 using System;
 using System.Collections.Generic;

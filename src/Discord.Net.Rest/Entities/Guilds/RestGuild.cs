@@ -1,4 +1,3 @@
-using Discord.Audio;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -844,8 +843,6 @@ namespace Discord.Rest
         //IGuild
         /// <inheritdoc />
         bool IGuild.Available => Available;
-        /// <inheritdoc />
-        IAudioClient IGuild.AudioClient => null;
         /// <inheritdoc />
         IRole IGuild.EveryoneRole => EveryoneRole;
         /// <inheritdoc />

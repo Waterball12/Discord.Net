@@ -1,4 +1,3 @@
-using Discord.Audio;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -195,12 +194,6 @@ namespace Discord.Rest
 
         async Task<IUserMessage> IMessageChannel.SendMessageAsync(string text, bool isTTS, Embed embed, RequestOptions options, AllowedMentions allowedMentions, MessageReference messageReference)
             => await SendMessageAsync(text, isTTS, embed, options, allowedMentions, messageReference).ConfigureAwait(false);
-
-        //IAudioChannel
-        /// <inheritdoc />
-        /// <exception cref="NotSupportedException">Connecting to a group channel is not supported.</exception>
-        Task<IAudioClient> IAudioChannel.ConnectAsync(bool selfDeaf, bool selfMute, bool external) { throw new NotSupportedException(); }
-        Task IAudioChannel.DisconnectAsync() { throw new NotSupportedException(); }
 
         //IChannel        
         Task<IUser> IChannel.GetUserAsync(ulong id, CacheMode mode, RequestOptions options)

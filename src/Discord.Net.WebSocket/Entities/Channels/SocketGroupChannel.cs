@@ -1,4 +1,3 @@
-using Discord.Audio;
 using Discord.Rest;
 using System;
 using System.Collections.Concurrent;
@@ -18,7 +17,7 @@ namespace Discord.WebSocket
     ///     Represents a WebSocket-based private group channel.
     /// </summary>
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
-    public class SocketGroupChannel : SocketChannel, IGroupChannel, ISocketPrivateChannel, ISocketMessageChannel, ISocketAudioChannel
+    public class SocketGroupChannel : SocketChannel, IGroupChannel, ISocketPrivateChannel, ISocketMessageChannel
     {
         private readonly MessageCache _messages;
         private readonly ConcurrentDictionary<ulong, SocketVoiceState> _voiceStates;
@@ -70,12 +69,6 @@ namespace Discord.WebSocket
         /// <inheritdoc />
         public Task LeaveAsync(RequestOptions options = null)
             => ChannelHelper.DeleteAsync(this, Discord, options);
-
-        /// <exception cref="NotSupportedException">Voice is not yet supported for group channels.</exception>
-        public Task<IAudioClient> ConnectAsync()
-        {
-            throw new NotSupportedException("Voice is not yet supported for group channels.");
-        }
 
         //Messages
         /// <inheritdoc />
@@ -305,13 +298,7 @@ namespace Discord.WebSocket
         /// <inheritdoc />
         async Task<IUserMessage> IMessageChannel.SendMessageAsync(string text, bool isTTS, Embed embed, RequestOptions options, AllowedMentions allowedMentions, MessageReference messageReference)
             => await SendMessageAsync(text, isTTS, embed, options, allowedMentions, messageReference).ConfigureAwait(false);
-
-        //IAudioChannel
-        /// <inheritdoc />
-        /// <exception cref="NotSupportedException">Connecting to a group channel is not supported.</exception>
-        Task<IAudioClient> IAudioChannel.ConnectAsync(bool selfDeaf, bool selfMute, bool external) { throw new NotSupportedException(); }
-        Task IAudioChannel.DisconnectAsync() { throw new NotSupportedException(); }
-
+        
         //IChannel        
         /// <inheritdoc />
         Task<IUser> IChannel.GetUserAsync(ulong id, CacheMode mode, RequestOptions options)

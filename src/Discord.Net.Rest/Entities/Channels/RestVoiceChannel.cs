@@ -1,4 +1,3 @@
-using Discord.Audio;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -70,12 +69,6 @@ namespace Discord.Rest
             => await ChannelHelper.GetInvitesAsync(this, Discord, options).ConfigureAwait(false);
 
         private string DebuggerDisplay => $"{Name} ({Id}, Voice)";
-
-        //IAudioChannel
-        /// <inheritdoc />
-        /// <exception cref="NotSupportedException">Connecting to a REST-based channel is not supported.</exception>
-        Task<IAudioClient> IAudioChannel.ConnectAsync(bool selfDeaf, bool selfMute, bool external) { throw new NotSupportedException(); }
-        Task IAudioChannel.DisconnectAsync() { throw new NotSupportedException(); }
 
         //IGuildChannel
         /// <inheritdoc />
