@@ -1,4 +1,3 @@
-using Discord.Audio;
 using Discord.Rest;
 using System;
 using System.Collections.Concurrent;
@@ -1050,8 +1049,6 @@ namespace Discord.WebSocket
         //IGuild
         /// <inheritdoc />
         ulong? IGuild.AFKChannelId => AFKChannelId;
-        /// <inheritdoc />
-        IAudioClient IGuild.AudioClient => null;
         /// <inheritdoc />
         bool IGuild.Available => true;
         /// <inheritdoc />

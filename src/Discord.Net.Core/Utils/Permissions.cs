@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Discord
@@ -88,6 +89,23 @@ namespace Discord
 
         public static ChannelPermissions ToChannelPerms(IGuildChannel channel, ulong guildPermissions)
             => new ChannelPermissions(guildPermissions & ChannelPermissions.All(channel).RawValue);
+
+        public static ulong ResolveGuild(ulong ownerId, ulong userId, IList<ulong> rolePermissions)
+        {
+            ulong resolvedPermissions = 0;
+
+            if (userId == ownerId)
+                resolvedPermissions = GuildPermissions.All.RawValue; //Owners always have all permissions
+            else
+            {
+                foreach (var roleId in rolePermissions)
+                    resolvedPermissions |= roleId;
+                if (GetValue(resolvedPermissions, GuildPermission.Administrator))
+                    resolvedPermissions = GuildPermissions.All.RawValue; //Administrators always have all permissions
+            }
+            return resolvedPermissions;
+        }
+
         public static ulong ResolveGuild(IGuild guild, IGuildUser user)
         {
             ulong resolvedPermissions = 0;

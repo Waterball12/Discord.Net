@@ -219,6 +219,7 @@ namespace Discord.WebSocket
 
             _largeGuilds = new ConcurrentQueue<ulong>();
         }
+
         private static API.DiscordSocketApiClient CreateApiClient(DiscordSocketConfig config)
             => new API.DiscordSocketApiClient(config.RestClientProvider, config.WebSocketProvider, DiscordRestConfig.UserAgent, config.GatewayHost,
                 rateLimitPrecision: config.RateLimitPrecision);
