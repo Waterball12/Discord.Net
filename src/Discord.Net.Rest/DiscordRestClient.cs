@@ -146,12 +146,6 @@ namespace Discord.Rest
                 return ImmutableArray.Create<IGroupChannel>();
         }
 
-        /// <inheritdoc />
-        async Task<IReadOnlyCollection<IConnection>> IDiscordClient.GetConnectionsAsync(RequestOptions options)
-            => await GetConnectionsAsync(options).ConfigureAwait(false);
-
-        async Task<IInvite> IDiscordClient.GetInviteAsync(string inviteId, RequestOptions options)
-            => await GetInviteAsync(inviteId, options).ConfigureAwait(false);
 
         /// <inheritdoc />
         async Task<IGuild> IDiscordClient.GetGuildAsync(ulong id, CacheMode mode, RequestOptions options)
@@ -169,9 +163,6 @@ namespace Discord.Rest
             else
                 return ImmutableArray.Create<IGuild>();
         }
-        /// <inheritdoc />
-        async Task<IGuild> IDiscordClient.CreateGuildAsync(string name, IVoiceRegion region, Stream jpegIcon, RequestOptions options)
-            => await CreateGuildAsync(name, region, jpegIcon, options).ConfigureAwait(false);
 
         /// <inheritdoc />
         async Task<IUser> IDiscordClient.GetUserAsync(ulong id, CacheMode mode, RequestOptions options)
@@ -185,9 +176,6 @@ namespace Discord.Rest
         /// <inheritdoc />
         async Task<IReadOnlyCollection<IVoiceRegion>> IDiscordClient.GetVoiceRegionsAsync(RequestOptions options)
             => await GetVoiceRegionsAsync(options).ConfigureAwait(false);
-        /// <inheritdoc />
-        async Task<IVoiceRegion> IDiscordClient.GetVoiceRegionAsync(string id, RequestOptions options)
-            => await GetVoiceRegionAsync(id, options).ConfigureAwait(false);
 
         /// <inheritdoc />
         async Task<IWebhook> IDiscordClient.GetWebhookAsync(ulong id, RequestOptions options)

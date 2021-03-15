@@ -2,7 +2,6 @@ using Discord.API;
 using Discord.API.Gateway;
 using Discord.Logging;
 using Discord.Net.Converters;
-using Discord.Net.Udp;
 using Discord.Net.WebSockets;
 using Discord.Rest;
 using Discord.Rest.Entities.Messages;
@@ -70,7 +69,6 @@ namespace Discord.WebSocket
         internal int MessageCacheSize { get; private set; }
         internal int LargeThreshold { get; private set; }
         internal ClientState State { get; private set; }
-        internal UdpSocketProvider UdpSocketProvider { get; private set; }
         internal WebSocketProvider WebSocketProvider { get; private set; }
         internal bool AlwaysDownloadUsers { get; private set; }
         internal int? HandlerTimeout { get; private set; }
@@ -135,7 +133,6 @@ namespace Discord.WebSocket
             TotalShards = config.TotalShards ?? 1;
             MessageCacheSize = config.MessageCacheSize;
             LargeThreshold = config.LargeThreshold;
-            UdpSocketProvider = config.UdpSocketProvider;
             WebSocketProvider = config.WebSocketProvider;
             AlwaysDownloadUsers = config.AlwaysDownloadUsers;
             HandlerTimeout = config.HandlerTimeout;
@@ -380,11 +377,6 @@ namespace Discord.WebSocket
         }
         internal void RemoveUser(ulong id)
             => State.RemoveUser(id);
-
-        /// <inheritdoc />
-        [Obsolete("This method is obsolete, use GetVoiceRegionAsync instead.")]
-        public override RestVoiceRegion GetVoiceRegion(string id)
-            => GetVoiceRegionAsync(id).GetAwaiter().GetResult();
 
         /// <inheritdoc />
         public override async ValueTask<IReadOnlyCollection<RestVoiceRegion>> GetVoiceRegionsAsync(RequestOptions options = null)
@@ -2003,6 +1995,12 @@ namespace Discord.WebSocket
                 messageReference, options);
         }
 
+        public Task<MessageChunk> SendDmFile(ulong channelId,
+            Stream stream, string filename, string text, bool isTTS, Embed embed, AllowedMentions allowedMentions, MessageReference messageReference, RequestOptions options, bool isSpoiler)
+        {
+            return ChannelHelper.SendFileAsync(channelId, this, stream, filename, text, isTTS, embed, allowedMentions, messageReference, options, isSpoiler);
+        }
+
         public async Task<IDMChannel> GetOrCreateDmChannel(ulong userId, RequestOptions options = null)
         {
             var dmChannel = State?.GetDMChannel(userId);
@@ -2227,22 +2225,11 @@ namespace Discord.WebSocket
             => Task.FromResult<IReadOnlyCollection<IGroupChannel>>(GroupChannels);
 
         /// <inheritdoc />
-        async Task<IReadOnlyCollection<IConnection>> IDiscordClient.GetConnectionsAsync(RequestOptions options)
-            => await GetConnectionsAsync().ConfigureAwait(false);
-
-        /// <inheritdoc />
-        async Task<IInvite> IDiscordClient.GetInviteAsync(string inviteId, RequestOptions options)
-            => await GetInviteAsync(inviteId, options).ConfigureAwait(false);
-
-        /// <inheritdoc />
         Task<IGuild> IDiscordClient.GetGuildAsync(ulong id, CacheMode mode, RequestOptions options)
             => Task.FromResult<IGuild>(GetGuild(id));
         /// <inheritdoc />
         Task<IReadOnlyCollection<IGuild>> IDiscordClient.GetGuildsAsync(CacheMode mode, RequestOptions options)
             => Task.FromResult<IReadOnlyCollection<IGuild>>(Guilds);
-        /// <inheritdoc />
-        async Task<IGuild> IDiscordClient.CreateGuildAsync(string name, IVoiceRegion region, Stream jpegIcon, RequestOptions options)
-            => await CreateGuildAsync(name, region, jpegIcon).ConfigureAwait(false);
 
         /// <inheritdoc />
         Task<IUser> IDiscordClient.GetUserAsync(ulong id, CacheMode mode, RequestOptions options)
@@ -2254,9 +2241,6 @@ namespace Discord.WebSocket
         /// <inheritdoc />
         async Task<IReadOnlyCollection<IVoiceRegion>> IDiscordClient.GetVoiceRegionsAsync(RequestOptions options)
             => await GetVoiceRegionsAsync(options).ConfigureAwait(false);
-        /// <inheritdoc />
-        async Task<IVoiceRegion> IDiscordClient.GetVoiceRegionAsync(string id, RequestOptions options)
-            => await GetVoiceRegionAsync(id, options).ConfigureAwait(false);
 
         /// <inheritdoc />
         async Task IDiscordClient.StartAsync()

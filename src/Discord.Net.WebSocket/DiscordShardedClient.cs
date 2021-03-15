@@ -265,11 +265,6 @@ namespace Discord.WebSocket
         }
 
         /// <inheritdoc />
-        [Obsolete("This method is obsolete, use GetVoiceRegionAsync instead.")]
-        public override RestVoiceRegion GetVoiceRegion(string id)
-            => _shards[0].GetVoiceRegion(id);
-
-        /// <inheritdoc />
         public override async ValueTask<IReadOnlyCollection<RestVoiceRegion>> GetVoiceRegionsAsync(RequestOptions options = null)
         {
             return await _shards[0].GetVoiceRegionsAsync().ConfigureAwait(false);
@@ -407,22 +402,11 @@ namespace Discord.WebSocket
             => Task.FromResult<IReadOnlyCollection<IPrivateChannel>>(PrivateChannels);
 
         /// <inheritdoc />
-        async Task<IReadOnlyCollection<IConnection>> IDiscordClient.GetConnectionsAsync(RequestOptions options)
-            => await GetConnectionsAsync().ConfigureAwait(false);
-
-        /// <inheritdoc />
-        async Task<IInvite> IDiscordClient.GetInviteAsync(string inviteId, RequestOptions options)
-            => await GetInviteAsync(inviteId, options).ConfigureAwait(false);
-
-        /// <inheritdoc />
         Task<IGuild> IDiscordClient.GetGuildAsync(ulong id, CacheMode mode, RequestOptions options)
             => Task.FromResult<IGuild>(GetGuild(id));
         /// <inheritdoc />
         Task<IReadOnlyCollection<IGuild>> IDiscordClient.GetGuildsAsync(CacheMode mode, RequestOptions options)
             => Task.FromResult<IReadOnlyCollection<IGuild>>(Guilds);
-        /// <inheritdoc />
-        async Task<IGuild> IDiscordClient.CreateGuildAsync(string name, IVoiceRegion region, Stream jpegIcon, RequestOptions options)
-            => await CreateGuildAsync(name, region, jpegIcon).ConfigureAwait(false);
 
         /// <inheritdoc />
         Task<IUser> IDiscordClient.GetUserAsync(ulong id, CacheMode mode, RequestOptions options)
@@ -434,9 +418,7 @@ namespace Discord.WebSocket
         /// <inheritdoc />
         Task<IReadOnlyCollection<IVoiceRegion>> IDiscordClient.GetVoiceRegionsAsync(RequestOptions options)
             => Task.FromResult<IReadOnlyCollection<IVoiceRegion>>(VoiceRegions);
-        /// <inheritdoc />
-        Task<IVoiceRegion> IDiscordClient.GetVoiceRegionAsync(string id, RequestOptions options)
-            => Task.FromResult<IVoiceRegion>(GetVoiceRegion(id));
+        
 
         internal override void Dispose(bool disposing)
         {

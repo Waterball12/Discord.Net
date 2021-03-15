@@ -1,4 +1,3 @@
-using Discord.Net.Udp;
 using Discord.Net.WebSockets;
 using Discord.Rest;
 
@@ -67,11 +66,6 @@ namespace Discord.WebSocket
         ///     Gets or sets the provider used to generate new WebSocket connections.
         /// </summary>
         public WebSocketProvider WebSocketProvider { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the provider used to generate new UDP sockets.
-        /// </summary>
-        public UdpSocketProvider UdpSocketProvider { get; set; }
 
         /// <summary>
         ///     Gets or sets whether or not all users should be downloaded as guilds come available.
@@ -187,7 +181,6 @@ namespace Discord.WebSocket
         public DiscordSocketConfig()
         {
             WebSocketProvider = DefaultWebSocketProvider.Instance;
-            UdpSocketProvider = DefaultUdpSocketProvider.Instance;
         }
 
         internal DiscordSocketConfig Clone() => MemberwiseClone() as DiscordSocketConfig;

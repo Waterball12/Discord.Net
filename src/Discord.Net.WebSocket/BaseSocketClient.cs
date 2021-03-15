@@ -164,16 +164,6 @@ namespace Discord.WebSocket
         /// </returns>
         public abstract SocketGuild GetGuild(ulong id);
         /// <summary>
-        ///     Gets a voice region.
-        /// </summary>
-        /// <param name="id">The identifier of the voice region (e.g. <c>eu-central</c> ).</param>
-        /// <returns>
-        ///     A REST-based voice region associated with the identifier; <c>null</c> if the voice region is not
-        ///     found.
-        /// </returns>
-        [Obsolete("This method is obsolete, use GetVoiceRegionAsync instead.")]
-        public abstract RestVoiceRegion GetVoiceRegion(string id);
-        /// <summary>
         ///     Gets all voice regions.
         /// </summary>
         /// <param name="options">The options to be used when sending the request.</param>
@@ -240,44 +230,6 @@ namespace Discord.WebSocket
         /// </returns>
         public abstract Task DownloadUsersAsync(IEnumerable<IGuild> guilds);
 
-        /// <summary>
-        ///     Creates a guild for the logged-in user who is in less than 10 active guilds.
-        /// </summary>
-        /// <remarks>
-        ///     This method creates a new guild on behalf of the logged-in user. 
-        ///     <note type="warning">
-        ///         Due to Discord's limitation, this method will only work for users that are in less than 10 guilds.
-        ///     </note>
-        /// </remarks>
-        /// <param name="name">The name of the new guild.</param>
-        /// <param name="region">The voice region to create the guild with.</param>
-        /// <param name="jpegIcon">The icon of the guild.</param>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous creation operation. The task result contains the created guild.
-        /// </returns>
-        public Task<RestGuild> CreateGuildAsync(string name, IVoiceRegion region, Stream jpegIcon = null, RequestOptions options = null)
-            => ClientHelper.CreateGuildAsync(this, name, region, jpegIcon, options ?? RequestOptions.Default);
-        /// <summary>
-        ///     Gets the connections that the user has set up.
-        /// </summary>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous get operation. The task result contains a read-only collection of connections.
-        /// </returns>
-        public Task<IReadOnlyCollection<RestConnection>> GetConnectionsAsync(RequestOptions options = null)
-            => ClientHelper.GetConnectionsAsync(this, options ?? RequestOptions.Default);
-        /// <summary>
-        ///     Gets an invite.
-        /// </summary>
-        /// <param name="inviteId">The invitation identifier.</param>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous get operation. The task result contains the invite information.
-        /// </returns>
-        public Task<RestInviteMetadata> GetInviteAsync(string inviteId, RequestOptions options = null)
-            => ClientHelper.GetInviteAsync(this, inviteId, options ?? RequestOptions.Default);
-        
         // IDiscordClient
         /// <inheritdoc />
         async Task<IApplication> IDiscordClient.GetApplicationInfoAsync(RequestOptions options)
@@ -291,14 +243,6 @@ namespace Discord.WebSocket
             => Task.FromResult<IReadOnlyCollection<IPrivateChannel>>(PrivateChannels);
 
         /// <inheritdoc />
-        async Task<IReadOnlyCollection<IConnection>> IDiscordClient.GetConnectionsAsync(RequestOptions options)
-            => await GetConnectionsAsync(options).ConfigureAwait(false);
-
-        /// <inheritdoc />
-        async Task<IInvite> IDiscordClient.GetInviteAsync(string inviteId, RequestOptions options)
-            => await GetInviteAsync(inviteId, options).ConfigureAwait(false);
-
-        /// <inheritdoc />
         Task<IGuild> IDiscordClient.GetGuildAsync(ulong id, CacheMode mode, RequestOptions options)
             => Task.FromResult<IGuild>(GetGuild(id));
         /// <inheritdoc />
@@ -306,19 +250,12 @@ namespace Discord.WebSocket
             => Task.FromResult<IReadOnlyCollection<IGuild>>(Guilds);
 
         /// <inheritdoc />
-        async Task<IGuild> IDiscordClient.CreateGuildAsync(string name, IVoiceRegion region, Stream jpegIcon, RequestOptions options)
-            => await CreateGuildAsync(name, region, jpegIcon, options).ConfigureAwait(false);
-
-        /// <inheritdoc />
         Task<IUser> IDiscordClient.GetUserAsync(ulong id, CacheMode mode, RequestOptions options)
             => Task.FromResult<IUser>(GetUser(id));
         /// <inheritdoc />
         Task<IUser> IDiscordClient.GetUserAsync(string username, string discriminator, RequestOptions options)
             => Task.FromResult<IUser>(GetUser(username, discriminator));
-
-        /// <inheritdoc />
-        Task<IVoiceRegion> IDiscordClient.GetVoiceRegionAsync(string id, RequestOptions options)
-            => Task.FromResult<IVoiceRegion>(GetVoiceRegion(id));
+        
         /// <inheritdoc />
         Task<IReadOnlyCollection<IVoiceRegion>> IDiscordClient.GetVoiceRegionsAsync(RequestOptions options)
             => Task.FromResult<IReadOnlyCollection<IVoiceRegion>>(VoiceRegions);

@@ -133,15 +133,6 @@ namespace Discord
         Task<IReadOnlyCollection<IGroupChannel>> GetGroupChannelsAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null);
 
         /// <summary>
-        ///     Gets the connections that the user has set up.
-        /// </summary>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous get operation. The task result contains a read-only collection of connections.
-        /// </returns>
-        Task<IReadOnlyCollection<IConnection>> GetConnectionsAsync(RequestOptions options = null);
-
-        /// <summary>
         ///     Gets a guild.
         /// </summary>
         /// <param name="id">The guild snowflake identifier.</param>
@@ -162,33 +153,6 @@ namespace Discord
         ///     of guilds that the current user is in.
         /// </returns>
         Task<IReadOnlyCollection<IGuild>> GetGuildsAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null);
-        /// <summary>
-        ///     Creates a guild for the logged-in user who is in less than 10 active guilds.
-        /// </summary>
-        /// <remarks>
-        ///     This method creates a new guild on behalf of the logged-in user.
-        ///     <note type="warning">
-        ///         Due to Discord's limitation, this method will only work for users that are in less than 10 guilds.
-        ///     </note>
-        /// </remarks>
-        /// <param name="name">The name of the new guild.</param>
-        /// <param name="region">The voice region to create the guild with.</param>
-        /// <param name="jpegIcon">The icon of the guild.</param>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous creation operation. The task result contains the created guild.
-        /// </returns>
-        Task<IGuild> CreateGuildAsync(string name, IVoiceRegion region, Stream jpegIcon = null, RequestOptions options = null);
-
-        /// <summary>
-        ///     Gets an invite.
-        /// </summary>
-        /// <param name="inviteId">The invitation identifier.</param>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous get operation. The task result contains the invite information.
-        /// </returns>
-        Task<IInvite> GetInviteAsync(string inviteId, RequestOptions options = null);
 
         /// <summary>
         ///     Gets a user.
@@ -243,16 +207,6 @@ namespace Discord
         ///     with all of the available voice regions in this session.
         /// </returns>
         Task<IReadOnlyCollection<IVoiceRegion>> GetVoiceRegionsAsync(RequestOptions options = null);
-        /// <summary>
-        ///     Gets a voice region.
-        /// </summary>
-        /// <param name="id">The identifier of the voice region (e.g. <c>eu-central</c> ).</param>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous get operation. The task result contains the voice region
-        ///     associated with the identifier; <c>null</c> if the voice region is not found.
-        /// </returns>
-        Task<IVoiceRegion> GetVoiceRegionAsync(string id, RequestOptions options = null);
 
         /// <summary>
         ///     Gets a webhook available.

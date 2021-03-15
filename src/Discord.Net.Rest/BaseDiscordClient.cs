@@ -189,14 +189,7 @@ namespace Discord.Rest
         /// <inheritdoc />
         Task<IReadOnlyCollection<IGroupChannel>> IDiscordClient.GetGroupChannelsAsync(CacheMode mode, RequestOptions options)
             => Task.FromResult<IReadOnlyCollection<IGroupChannel>>(ImmutableArray.Create<IGroupChannel>());
-
-        /// <inheritdoc />
-        Task<IReadOnlyCollection<IConnection>> IDiscordClient.GetConnectionsAsync(RequestOptions options)
-            => Task.FromResult<IReadOnlyCollection<IConnection>>(ImmutableArray.Create<IConnection>());
-
-        /// <inheritdoc />
-        Task<IInvite> IDiscordClient.GetInviteAsync(string inviteId, RequestOptions options)
-            => Task.FromResult<IInvite>(null);
+        
 
         /// <inheritdoc />
         Task<IGuild> IDiscordClient.GetGuildAsync(ulong id, CacheMode mode, RequestOptions options)
@@ -204,10 +197,6 @@ namespace Discord.Rest
         /// <inheritdoc />
         Task<IReadOnlyCollection<IGuild>> IDiscordClient.GetGuildsAsync(CacheMode mode, RequestOptions options)
             => Task.FromResult<IReadOnlyCollection<IGuild>>(ImmutableArray.Create<IGuild>());
-        /// <inheritdoc />
-        /// <exception cref="NotSupportedException">Creating a guild is not supported with the base client.</exception>
-        Task<IGuild> IDiscordClient.CreateGuildAsync(string name, IVoiceRegion region, Stream jpegIcon, RequestOptions options)
-            => throw new NotSupportedException();
 
         /// <inheritdoc />
         Task<IUser> IDiscordClient.GetUserAsync(ulong id, CacheMode mode, RequestOptions options)
@@ -219,9 +208,6 @@ namespace Discord.Rest
         /// <inheritdoc />
         Task<IReadOnlyCollection<IVoiceRegion>> IDiscordClient.GetVoiceRegionsAsync(RequestOptions options)
             => Task.FromResult<IReadOnlyCollection<IVoiceRegion>>(ImmutableArray.Create<IVoiceRegion>());
-        /// <inheritdoc />
-        Task<IVoiceRegion> IDiscordClient.GetVoiceRegionAsync(string id, RequestOptions options)
-            => Task.FromResult<IVoiceRegion>(null);
 
         /// <inheritdoc />
         Task<IWebhook> IDiscordClient.GetWebhookAsync(ulong id, RequestOptions options)

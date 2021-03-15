@@ -258,6 +258,34 @@ namespace Discord.Rest
             return MessageChunk.Create(model);
         }
 
+        public static async Task<MessageChunk> SendFileAsync(ulong channelId, BaseDiscordClient client,
+            Stream stream, string filename, string text, bool isTTS, Embed embed, AllowedMentions allowedMentions, MessageReference messageReference, RequestOptions options, bool isSpoiler)
+        {
+            Preconditions.AtMost(allowedMentions?.RoleIds?.Count ?? 0, 100, nameof(allowedMentions.RoleIds), "A max of 100 role Ids are allowed.");
+            Preconditions.AtMost(allowedMentions?.UserIds?.Count ?? 0, 100, nameof(allowedMentions.UserIds), "A max of 100 user Ids are allowed.");
+
+            // check that user flag and user Id list are exclusive, same with role flag and role Id list
+            if (allowedMentions != null && allowedMentions.AllowedTypes.HasValue)
+            {
+                if (allowedMentions.AllowedTypes.Value.HasFlag(AllowedMentionTypes.Users) &&
+                    allowedMentions.UserIds != null && allowedMentions.UserIds.Count > 0)
+                {
+                    throw new ArgumentException("The Users flag is mutually exclusive with the list of User Ids.", nameof(allowedMentions));
+                }
+
+                if (allowedMentions.AllowedTypes.Value.HasFlag(AllowedMentionTypes.Roles) &&
+                    allowedMentions.RoleIds != null && allowedMentions.RoleIds.Count > 0)
+                {
+                    throw new ArgumentException("The Roles flag is mutually exclusive with the list of Role Ids.", nameof(allowedMentions));
+                }
+            }
+
+            var args = new UploadFileParams(stream) { Filename = filename, Content = text, IsTTS = isTTS, Embed = embed?.ToModel() ?? Optional<API.Embed>.Unspecified, AllowedMentions = allowedMentions?.ToModel() ?? Optional<API.AllowedMentions>.Unspecified, MessageReference = messageReference?.ToModel() ?? Optional<API.MessageReference>.Unspecified, IsSpoiler = isSpoiler };
+            var model = await client.ApiClient.UploadFileAsync(channelId, args, options).ConfigureAwait(false);
+            
+            return MessageChunk.Create(model);
+        }
+
         /// <exception cref="ArgumentException">
         /// <paramref name="filePath" /> is a zero-length string, contains only white space, or contains one or more
         /// invalid characters as defined by <see cref="System.IO.Path.GetInvalidPathChars"/>.
