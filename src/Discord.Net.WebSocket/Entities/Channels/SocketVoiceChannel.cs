@@ -33,15 +33,6 @@ namespace Discord.WebSocket
         public Task SyncPermissionsAsync(RequestOptions options = null)
             => ChannelHelper.SyncPermissionsAsync(this, Discord, options);
 
-        /// <summary>
-        ///     Gets a collection of users that are currently connected to this voice channel.
-        /// </summary>
-        /// <returns>
-        ///     A read-only collection of users that are currently connected to this voice channel.
-        /// </returns>
-        public override IReadOnlyCollection<SocketGuildUser> Users
-            => Guild.Users.Where(x => x.VoiceChannel?.Id == Id).ToImmutableArray();
-
         internal SocketVoiceChannel(DiscordSocketClient discord, ulong id, SocketGuild guild)
             : base(discord, id, guild)
         {
@@ -69,8 +60,8 @@ namespace Discord.WebSocket
         public override SocketGuildUser GetUser(ulong id)
         {
             var user = Guild.GetUser(id);
-            if (user?.VoiceChannel?.Id == Id)
-                return user;
+            //if (user?.VoiceChannel?.Id == Id)
+            //    return user;
             return null;
         }
 

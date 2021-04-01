@@ -7,7 +7,7 @@ namespace Discord
     /// <summary>
     ///     Represents a generic guild user.
     /// </summary>
-    public interface IGuildUser : IUser, IVoiceState
+    public interface IGuildUser : IUser
     {
         /// <summary>
         ///     Gets when this user joined the guild.

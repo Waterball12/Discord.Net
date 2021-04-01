@@ -172,24 +172,6 @@ namespace Discord
         ///     the snowflake identifier; <c>null</c> if the user is not found.
         /// </returns>
         Task<IUser> GetUserAsync(ulong id, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null);
-        /// <summary>
-        ///     Gets a user.
-        /// </summary>
-        /// <example>
-        ///     <code language="cs" title="Example method">
-        ///    var user = await _client.GetUserAsync("Still", "2876");
-        ///    if (user != null)
-        ///        Console.WriteLine($"{user} is created at {user.CreatedAt}.";
-        ///    </code>
-        /// </example>
-        /// <param name="username">The name of the user (e.g. `Still`).</param>
-        /// <param name="discriminator">The discriminator value of the user (e.g. `2876`).</param>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous get operation. The task result contains the user associated with
-        ///     the name and the discriminator; <c>null</c> if the user is not found.
-        /// </returns>
-        Task<IUser> GetUserAsync(string username, string discriminator, RequestOptions options = null);
 
         /// <summary>
         ///     Gets a collection of the available voice regions.

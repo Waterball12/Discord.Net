@@ -931,15 +931,6 @@ namespace Discord.Rest
                 return null;
         }
         /// <inheritdoc />
-        [Obsolete("This endpoint is deprecated, use GetWidgetChannelAsync instead.")]
-        async Task<IGuildChannel> IGuild.GetEmbedChannelAsync(CacheMode mode, RequestOptions options)
-        {
-            if (mode == CacheMode.AllowDownload)
-                return await GetEmbedChannelAsync(options).ConfigureAwait(false);
-            else
-                return null;
-        }
-        /// <inheritdoc />
         async Task<IGuildChannel> IGuild.GetWidgetChannelAsync(CacheMode mode, RequestOptions options)
         {
             if (mode == CacheMode.AllowDownload)

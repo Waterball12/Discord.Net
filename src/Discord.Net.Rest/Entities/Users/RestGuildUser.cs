@@ -22,10 +22,6 @@ namespace Discord.Rest
         public string Nickname { get; private set; }
         internal IGuild Guild { get; private set; }
         /// <inheritdoc />
-        public bool IsDeafened { get; private set; }
-        /// <inheritdoc />
-        public bool IsMuted { get; private set; }
-        /// <inheritdoc />
         public DateTimeOffset? PremiumSince => DateTimeUtils.FromTicks(_premiumSinceTicks);
         /// <inheritdoc />
         public ulong GuildId => Guild.Id;
@@ -67,10 +63,10 @@ namespace Discord.Rest
                 _joinedAtTicks = model.JoinedAt.Value.UtcTicks;
             if (model.Nick.IsSpecified)
                 Nickname = model.Nick.Value;
-            if (model.Deaf.IsSpecified)
-                IsDeafened = model.Deaf.Value;
-            if (model.Mute.IsSpecified)
-                IsMuted = model.Mute.Value;
+            //if (model.Deaf.IsSpecified)
+            //    IsDeafened = model.Deaf.Value;
+            //if (model.Mute.IsSpecified)
+            //    IsMuted = model.Mute.Value;
             if (model.Roles.IsSpecified)
                 UpdateRoles(model.Roles.Value);
             if (model.PremiumSince.IsSpecified)
@@ -97,10 +93,10 @@ namespace Discord.Rest
         public async Task ModifyAsync(Action<GuildUserProperties> func, RequestOptions options = null)
         {
             var args = await UserHelper.ModifyAsync(this, Discord, func, options).ConfigureAwait(false);
-            if (args.Deaf.IsSpecified)
-                IsDeafened = args.Deaf.Value;
-            if (args.Mute.IsSpecified)
-                IsMuted = args.Mute.Value;
+            //if (args.Deaf.IsSpecified)
+            //    IsDeafened = args.Deaf.Value;
+            //if (args.Mute.IsSpecified)
+            //    IsMuted = args.Mute.Value;
             if (args.Nickname.IsSpecified)
                 Nickname = args.Nickname.Value;
             if (args.Roles.IsSpecified)
@@ -143,19 +139,5 @@ namespace Discord.Rest
                 throw new InvalidOperationException("Unable to return this entity's parent unless it was fetched through that object.");
             }
         }
-
-        //IVoiceState
-        /// <inheritdoc />
-        bool IVoiceState.IsSelfDeafened => false;
-        /// <inheritdoc />
-        bool IVoiceState.IsSelfMuted => false;
-        /// <inheritdoc />
-        bool IVoiceState.IsSuppressed => false;
-        /// <inheritdoc />
-        IVoiceChannel IVoiceState.VoiceChannel => null;
-        /// <inheritdoc />
-        string IVoiceState.VoiceSessionId => null;
-        /// <inheritdoc />
-        bool IVoiceState.IsStreaming => false;
     }
 }

@@ -201,9 +201,6 @@ namespace Discord.Rest
         /// <inheritdoc />
         Task<IUser> IDiscordClient.GetUserAsync(ulong id, CacheMode mode, RequestOptions options)
             => Task.FromResult<IUser>(null);
-        /// <inheritdoc />
-        Task<IUser> IDiscordClient.GetUserAsync(string username, string discriminator, RequestOptions options)
-            => Task.FromResult<IUser>(null);
 
         /// <inheritdoc />
         Task<IReadOnlyCollection<IVoiceRegion>> IDiscordClient.GetVoiceRegionsAsync(RequestOptions options)

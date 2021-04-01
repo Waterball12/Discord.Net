@@ -41,17 +41,6 @@ namespace Discord.WebSocket
 
         /// <inheritdoc />
         public DateTimeOffset CreatedAt => SnowflakeUtils.FromSnowflake(Id);
-        /// <summary>
-        ///     Returns a value that determines if the role is an @everyone role.
-        /// </summary>
-        /// <returns>
-        ///     <c>true</c> if the role is @everyone; otherwise <c>false</c>.
-        /// </returns>
-        public bool IsEveryone => Id == Guild.Id;
-        /// <inheritdoc />
-        public string Mention => IsEveryone ? "@everyone" : MentionUtils.MentionRole(Id);
-        public IEnumerable<SocketGuildUser> Members 
-            => Guild.Users.Where(x => x.Roles.Any(r => r.Id == Id));
 
         internal SocketRole(SocketGuild guild, ulong id)
             : base(guild.Discord, id)

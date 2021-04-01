@@ -217,17 +217,6 @@ namespace Discord.Rest
 
         private string DebuggerDisplay => $"{Name} ({Id}, Text)";
 
-        //ITextChannel
-        /// <inheritdoc />
-        async Task<IWebhook> ITextChannel.CreateWebhookAsync(string name, Stream avatar, RequestOptions options)
-            => await CreateWebhookAsync(name, avatar, options).ConfigureAwait(false);
-        /// <inheritdoc />
-        async Task<IWebhook> ITextChannel.GetWebhookAsync(ulong id, RequestOptions options)
-            => await GetWebhookAsync(id, options).ConfigureAwait(false);
-        /// <inheritdoc />
-        async Task<IReadOnlyCollection<IWebhook>> ITextChannel.GetWebhooksAsync(RequestOptions options)
-            => await GetWebhooksAsync(options).ConfigureAwait(false);
-
         //IMessageChannel
         /// <inheritdoc />
         async Task<IMessage> IMessageChannel.GetMessageAsync(ulong id, CacheMode mode, RequestOptions options)
@@ -271,9 +260,6 @@ namespace Discord.Rest
             else
                 return AsyncEnumerable.Empty<IReadOnlyCollection<IMessage>>();
         }
-        /// <inheritdoc />
-        async Task<IReadOnlyCollection<IMessage>> IMessageChannel.GetPinnedMessagesAsync(RequestOptions options)
-            => await GetPinnedMessagesAsync(options).ConfigureAwait(false);
 
         /// <inheritdoc />
         async Task<IUserMessage> IMessageChannel.SendFileAsync(string filePath, string text, bool isTTS, Embed embed, RequestOptions options, bool isSpoiler, AllowedMentions allowedMentions, MessageReference messageReference)

@@ -43,33 +43,15 @@ namespace Discord.WebSocket
 
         /// <inheritdoc />
         public override bool IsWebhook => false;
-        /// <inheritdoc />
-        public bool IsSelfDeafened => VoiceState?.IsSelfDeafened ?? false;
-        /// <inheritdoc />
-        public bool IsSelfMuted => VoiceState?.IsSelfMuted ?? false;
-        /// <inheritdoc />
-        public bool IsSuppressed => VoiceState?.IsSuppressed ?? false;
-        /// <inheritdoc />
-        public bool IsDeafened => VoiceState?.IsDeafened ?? false;
-        /// <inheritdoc />
-        public bool IsMuted => VoiceState?.IsMuted ?? false;
-        /// <inheritdoc />
-        public bool IsStreaming => VoiceState?.IsStreaming ?? false;
+
         /// <inheritdoc />
         public bool? IsPending { get; private set; }
         /// <inheritdoc />
         public DateTimeOffset? JoinedAt => DateTimeUtils.FromTicks(_joinedAtTicks);
-        /// <summary>
-        ///     Returns a collection of roles that the user possesses.
-        /// </summary>
-        public IReadOnlyCollection<SocketRole> Roles 
-            => _roleIds.Select(id => Guild.GetRole(id)).Where(x => x != null).ToReadOnlyCollection(() => _roleIds.Length);
-        /// <summary>
-        ///     Returns the voice channel the user is in, or <c>null</c> if none.
-        /// </summary>
-        public SocketVoiceChannel VoiceChannel => VoiceState?.VoiceChannel;
-        /// <inheritdoc />
-        public string VoiceSessionId => VoiceState?.VoiceSessionId ?? "";
+        
+
+        public IReadOnlyCollection<ulong> RoleIds => _roleIds;
+
         /// <summary>
         ///     Gets the voice connection status of the user if any.
         /// </summary>
@@ -199,11 +181,5 @@ namespace Discord.WebSocket
         IGuild IGuildUser.Guild => Guild;
         /// <inheritdoc />
         ulong IGuildUser.GuildId => Guild.Id;
-        /// <inheritdoc />
-        IReadOnlyCollection<ulong> IGuildUser.RoleIds => _roleIds;
-
-        //IVoiceState
-        /// <inheritdoc />
-        IVoiceChannel IVoiceState.VoiceChannel => VoiceChannel;
     }
 }

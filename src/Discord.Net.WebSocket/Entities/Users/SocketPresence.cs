@@ -14,18 +14,9 @@ namespace Discord.WebSocket
     {
         /// <inheritdoc />
         public UserStatus Status { get; }
-        /// <inheritdoc />
-        public IActivity Activity { get; }
-        /// <inheritdoc />
-        public IImmutableSet<ClientType> ActiveClients { get; }
-        /// <inheritdoc />
-        public IImmutableList<IActivity> Activities { get; }
         internal SocketPresence(UserStatus status, IActivity activity, IImmutableSet<ClientType> activeClients, IImmutableList<IActivity> activities)
         {
             Status = status;
-            Activity = activity;
-            ActiveClients = activeClients ?? ImmutableHashSet<ClientType>.Empty;
-            Activities = activities ?? ImmutableList<IActivity>.Empty;
         }
         internal static SocketPresence Create(Model model)
         {
@@ -84,7 +75,7 @@ namespace Discord.WebSocket
         ///     A string that resolves to <see cref="Discord.WebSocket.SocketPresence.Status" />.
         /// </returns>
         public override string ToString() => Status.ToString();
-        private string DebuggerDisplay => $"{Status}{(Activity != null ? $", {Activity.Name}": "")}";
+        private string DebuggerDisplay => $"{Status}";
 
         internal SocketPresence Clone() => this;
     }

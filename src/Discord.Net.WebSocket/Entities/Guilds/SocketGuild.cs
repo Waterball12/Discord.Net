@@ -188,79 +188,7 @@ namespace Discord.WebSocket
                 return maxBitrate;
             }
         }
-        /// <summary>
-        ///     Gets the embed channel (i.e. the channel set in the guild's widget settings) in this guild.
-        /// </summary>
-        /// <returns>
-        ///     A channel set within the server's widget settings; <see langword="null"/> if none is set.
-        /// </returns>
-        [Obsolete("This property is deprecated, use WidgetChannel instead.")]
-        public SocketGuildChannel EmbedChannel
-        {
-            get
-            {
-                var id = EmbedChannelId;
-                return id.HasValue ? GetChannel(id.Value) : null;
-            }
-        }
-        /// <summary>
-        ///     Gets the widget channel (i.e. the channel set in the guild's widget settings) in this guild.
-        /// </summary>
-        /// <returns>
-        ///     A channel set within the server's widget settings; <see langword="null"/> if none is set.
-        /// </returns>
-        public SocketGuildChannel WidgetChannel
-        {
-            get
-            {
-                var id = WidgetChannelId;
-                return id.HasValue ? GetChannel(id.Value) : null;
-            }
-        }
-        /// <summary>
-        ///     Gets the system channel where randomized welcome messages are sent in this guild.
-        /// </summary>
-        /// <returns>
-        ///     A text channel where randomized welcome messages will be sent to; <see langword="null"/> if none is set.
-        /// </returns>
-        public SocketTextChannel SystemChannel
-        {
-            get
-            {
-                var id = SystemChannelId;
-                return id.HasValue ? GetTextChannel(id.Value) : null;
-            }
-        }
-        /// <summary>
-        ///     Gets the channel with the guild rules.
-        /// </summary>
-        /// <returns>
-        ///     A text channel with the guild rules; <see langword="null"/> if none is set.
-        /// </returns>
-        public SocketTextChannel RulesChannel
-        {
-            get
-            {
-                var id = RulesChannelId;
-                return id.HasValue ? GetTextChannel(id.Value) : null;
-            }
-        }
-        /// <summary>
-        ///     Gets the channel where admins and moderators of Community guilds receive
-        ///     notices from Discord.
-        /// </summary>
-        /// <returns>
-        ///     A text channel where admins and moderators of Community guilds receive
-        ///     notices from Discord; <see langword="null"/> if none is set.
-        /// </returns>
-        public SocketTextChannel PublicUpdatesChannel
-        {
-            get
-            {
-                var id = PublicUpdatesChannelId;
-                return id.HasValue ? GetTextChannel(id.Value) : null;
-            }
-        }
+        
         /// <summary>
         ///     Gets a collection of all text channels in this guild.
         /// </summary>
@@ -1110,21 +1038,17 @@ namespace Discord.WebSocket
         Task<ITextChannel> IGuild.GetDefaultChannelAsync(CacheMode mode, RequestOptions options)
             => Task.FromResult<ITextChannel>(DefaultChannel);
         /// <inheritdoc />
-        [Obsolete("This method is deprecated, use GetWidgetChannelAsync instead.")]
-        Task<IGuildChannel> IGuild.GetEmbedChannelAsync(CacheMode mode, RequestOptions options)
-            => Task.FromResult<IGuildChannel>(EmbedChannel);
-        /// <inheritdoc />
         Task<IGuildChannel> IGuild.GetWidgetChannelAsync(CacheMode mode, RequestOptions options)
-            => Task.FromResult<IGuildChannel>(WidgetChannel);
+            => throw new NotImplementedException();
         /// <inheritdoc />
         Task<ITextChannel> IGuild.GetSystemChannelAsync(CacheMode mode, RequestOptions options)
-            => Task.FromResult<ITextChannel>(SystemChannel);
+            => throw new NotImplementedException();
         /// <inheritdoc />
         Task<ITextChannel> IGuild.GetRulesChannelAsync(CacheMode mode, RequestOptions options)
-            => Task.FromResult<ITextChannel>(RulesChannel);
+            => throw new NotImplementedException();
         /// <inheritdoc />
         Task<ITextChannel> IGuild.GetPublicUpdatesChannelAsync(CacheMode mode, RequestOptions options)
-            => Task.FromResult<ITextChannel>(PublicUpdatesChannel);
+            => throw new NotImplementedException();
         /// <inheritdoc />
         async Task<ITextChannel> IGuild.CreateTextChannelAsync(string name, Action<TextChannelProperties> func, RequestOptions options)
             => await CreateTextChannelAsync(name, func, options).ConfigureAwait(false);

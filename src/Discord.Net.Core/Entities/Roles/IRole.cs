@@ -6,7 +6,7 @@ namespace Discord
     /// <summary>
     ///     Represents a generic role object to be given to a guild user.
     /// </summary>
-    public interface IRole : ISnowflakeEntity, IDeletable, IMentionable, IComparable<IRole>
+    public interface IRole : ISnowflakeEntity, IDeletable, IComparable<IRole>
     {
         /// <summary>
         ///     Gets the guild that owns this role.

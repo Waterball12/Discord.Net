@@ -5,7 +5,7 @@ namespace Discord
     /// <summary>
     ///     Represents a generic user.
     /// </summary>
-    public interface IUser : ISnowflakeEntity, IMentionable, IPresence
+    public interface IUser : ISnowflakeEntity, IPresence
     {
         /// <summary>
         ///     Gets the identifier of this user's avatar.
@@ -75,16 +75,6 @@ namespace Discord
         ///     Gets the username for this user.
         /// </summary>
         string Username { get; }
-        /// <summary>
-        ///     Gets the public flags that are applied to this user's account.
-        /// </summary>
-        /// <remarks>
-        ///     This value is determined by bitwise OR-ing <see cref="UserProperties"/> values together.
-        /// </remarks>
-        /// <returns>
-        ///     The value of public flags for this user.
-        /// </returns>
-        UserProperties? PublicFlags { get; }
 
         /// <summary>
         ///     Gets the direct message channel of this user, or create one if it does not already exist.

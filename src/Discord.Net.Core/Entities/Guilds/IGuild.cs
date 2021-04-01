@@ -584,17 +584,6 @@ namespace Discord
         /// </returns>
         Task<ITextChannel> GetDefaultChannelAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null);
         /// <summary>
-        ///     Gets the embed channel (i.e. the channel set in the guild's widget settings) in this guild.
-        /// </summary>
-        /// <param name="mode">The <see cref="CacheMode" /> that determines whether the object should be fetched from cache.</param>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous get operation. The task result contains the embed channel set
-        ///     within the server's widget settings; <see langword="null" /> if none is set.
-        /// </returns>
-        [Obsolete("This endpoint is deprecated, use GetWidgetChannelAsync instead.")]
-        Task<IGuildChannel> GetEmbedChannelAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null);
-        /// <summary>
         ///     Gets the widget channel (i.e. the channel set in the guild's widget settings) in this guild.
         /// </summary>
         /// <param name="mode">The <see cref="CacheMode" /> that determines whether the object should be fetched from cache.</param>

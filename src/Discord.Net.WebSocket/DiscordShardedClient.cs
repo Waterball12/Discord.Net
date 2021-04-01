@@ -252,17 +252,6 @@ namespace Discord.WebSocket
             }
             return null;
         }
-        /// <inheritdoc />
-        public override SocketUser GetUser(string username, string discriminator)
-        {
-            for (int i = 0; i < _shards.Length; i++)
-            {
-                var user = _shards[i].GetUser(username, discriminator);
-                if (user != null)
-                    return user;
-            }
-            return null;
-        }
 
         /// <inheritdoc />
         public override async ValueTask<IReadOnlyCollection<RestVoiceRegion>> GetVoiceRegionsAsync(RequestOptions options = null)
@@ -379,7 +368,6 @@ namespace Discord.WebSocket
             client.UserUpdated += (oldUser, newUser) => _userUpdatedEvent.InvokeAsync(oldUser, newUser);
             client.GuildMemberUpdated += (oldUser, newUser) => _guildMemberUpdatedEvent.InvokeAsync(oldUser, newUser);
             client.UserVoiceStateUpdated += (user, oldVoiceState, newVoiceState) => _userVoiceStateUpdatedEvent.InvokeAsync(user, oldVoiceState, newVoiceState);
-            client.VoiceServerUpdated += (server) => _voiceServerUpdatedEvent.InvokeAsync(server);
             client.CurrentUserUpdated += (oldUser, newUser) => _selfUpdatedEvent.InvokeAsync(oldUser, newUser);
             client.UserIsTyping += (oldUser, newUser) => _userIsTypingEvent.InvokeAsync(oldUser, newUser);
             client.RecipientAdded += (user) => _recipientAddedEvent.InvokeAsync(user);
@@ -411,9 +399,6 @@ namespace Discord.WebSocket
         /// <inheritdoc />
         Task<IUser> IDiscordClient.GetUserAsync(ulong id, CacheMode mode, RequestOptions options)
             => Task.FromResult<IUser>(GetUser(id));
-        /// <inheritdoc />
-        Task<IUser> IDiscordClient.GetUserAsync(string username, string discriminator, RequestOptions options)
-            => Task.FromResult<IUser>(GetUser(username, discriminator));
 
         /// <inheritdoc />
         Task<IReadOnlyCollection<IVoiceRegion>> IDiscordClient.GetVoiceRegionsAsync(RequestOptions options)

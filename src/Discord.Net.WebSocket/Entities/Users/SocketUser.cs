@@ -26,8 +26,6 @@ namespace Discord.WebSocket
         public abstract string AvatarId { get; internal set; }
         /// <inheritdoc />
         public abstract bool IsWebhook { get; }
-        /// <inheritdoc />
-        public UserProperties? PublicFlags { get; private set; }
         internal abstract SocketGlobalUser GlobalUser { get; }
         internal abstract SocketPresence Presence { get; set; }
 
@@ -36,23 +34,8 @@ namespace Discord.WebSocket
         /// <inheritdoc />
         public string Discriminator => DiscriminatorValue.ToString("D4");
         /// <inheritdoc />
-        public string Mention => MentionUtils.MentionUser(Id);
-        /// <inheritdoc />
-        public IActivity Activity => Presence.Activity;
-        /// <inheritdoc />
         public UserStatus Status => Presence.Status;
-        /// <inheritdoc />
-        public IImmutableSet<ClientType> ActiveClients => Presence.ActiveClients ?? ImmutableHashSet<ClientType>.Empty;
-        /// <inheritdoc />
-        public IImmutableList<IActivity> Activities => Presence.Activities ?? ImmutableList<IActivity>.Empty;
-        /// <summary>
-        ///     Gets mutual guilds shared with this user.
-        /// </summary>
-        /// <remarks>
-        ///     This property will only include guilds in the same <see cref="DiscordSocketClient"/>.
-        /// </remarks>
-        public IReadOnlyCollection<SocketGuild> MutualGuilds
-            => Discord.Guilds.Where(g => g.GetUser(Id) != null).ToImmutableArray();
+        
 
         internal SocketUser(DiscordSocketClient discord, ulong id)
             : base(discord, id)
@@ -85,11 +68,11 @@ namespace Discord.WebSocket
                 Username = model.Username.Value;
                 hasChanges = true;
             }
-            if (model.PublicFlags.IsSpecified && model.PublicFlags.Value != PublicFlags)
-            {
-                PublicFlags = model.PublicFlags.Value;
-                hasChanges = true;
-            }
+            //if (model.PublicFlags.IsSpecified && model.PublicFlags.Value != PublicFlags)
+            //{
+            //    //PublicFlags = model.PublicFlags.Value;
+            //    hasChanges = true;
+            //}
             return hasChanges;
         }
 

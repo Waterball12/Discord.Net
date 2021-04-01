@@ -15,7 +15,6 @@ namespace Discord.Rest
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
     public class RestGroupChannel : RestChannel, IGroupChannel, IRestPrivateChannel, IRestMessageChannel, IRestAudioChannel
     {
-        private string _iconId;
         private ImmutableDictionary<ulong, RestGroupUser> _users;
 
         /// <inheritdoc />
@@ -40,7 +39,8 @@ namespace Discord.Rest
             if (model.Name.IsSpecified)
                 Name = model.Name.Value;
             if (model.Icon.IsSpecified)
-                _iconId = model.Icon.Value;
+            {
+            }
 
             if (model.Recipients.IsSpecified)
                 UpdateUsers(model.Recipients.Value);
@@ -183,8 +183,6 @@ namespace Discord.Rest
             else
                 return AsyncEnumerable.Empty<IReadOnlyCollection<IMessage>>();
         }
-        async Task<IReadOnlyCollection<IMessage>> IMessageChannel.GetPinnedMessagesAsync(RequestOptions options)
-            => await GetPinnedMessagesAsync(options).ConfigureAwait(false);
 
         async Task<IUserMessage> IMessageChannel.SendFileAsync(string filePath, string text, bool isTTS, Embed embed, RequestOptions options, bool isSpoiler, AllowedMentions allowedMentions, MessageReference messageReference)
             => await SendFileAsync(filePath, text, isTTS, embed, options, isSpoiler, allowedMentions, messageReference).ConfigureAwait(false);

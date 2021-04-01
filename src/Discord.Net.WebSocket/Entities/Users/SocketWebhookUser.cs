@@ -100,23 +100,6 @@ namespace Discord.WebSocket
         /// <exception cref="NotSupportedException">Roles are not supported on webhook users.</exception>
         Task IGuildUser.RemoveRolesAsync(IEnumerable<IRole> roles, RequestOptions options) => 
             throw new NotSupportedException("Roles are not supported on webhook users.");
-
-        //IVoiceState
-        /// <inheritdoc />
-        bool IVoiceState.IsDeafened => false;
-        /// <inheritdoc />
-        bool IVoiceState.IsMuted => false;
-        /// <inheritdoc />
-        bool IVoiceState.IsSelfDeafened => false;
-        /// <inheritdoc />
-        bool IVoiceState.IsSelfMuted => false;
-        /// <inheritdoc />
-        bool IVoiceState.IsSuppressed => false;
-        /// <inheritdoc />
-        IVoiceChannel IVoiceState.VoiceChannel => null;
-        /// <inheritdoc />
-        string IVoiceState.VoiceSessionId => null;
-        /// <inheritdoc />
-        bool IVoiceState.IsStreaming => false;
+        
     }
 }
