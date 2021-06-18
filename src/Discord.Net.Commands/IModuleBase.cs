@@ -1,14 +1,15 @@
 using Discord.Commands.Builders;
+using System.Threading.Tasks;
 
 namespace Discord.Commands
 {
     internal interface IModuleBase
     {
-        void SetContext(ICommandContext context);
+        ValueTask BeforeExecuteAsync(CommandInfo command);
 
-        void BeforeExecute(CommandInfo command);
-        
-        void AfterExecute(CommandInfo command);
+        ValueTask AfterExecuteAsync(CommandInfo command);
+
+        void SetContext(ICommandContext context);
 
         void OnModuleBuilding(CommandService commandService, ModuleBuilder builder);
     }

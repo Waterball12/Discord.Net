@@ -206,10 +206,19 @@ namespace Discord.Commands
             {
                 var instance = createInstance(services);
                 instance.SetContext(context);
-
+                
+                var executeAfter = true;
                 try
                 {
-                    instance.BeforeExecute(cmd);
+                    try
+                    {
+                        await instance.BeforeExecuteAsync(cmd).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        executeAfter = false;
+                        return ExecuteResult.FromError(ex);
+                    }
 
                     var task = method.Invoke(instance, args) as Task ?? Task.Delay(0);
                     if (task is Task<RuntimeResult> resultTask)
@@ -224,8 +233,36 @@ namespace Discord.Commands
                 }
                 finally
                 {
-                    instance.AfterExecute(cmd);
-                    (instance as IDisposable)?.Dispose();
+                    try
+                    {
+                        if (executeAfter)
+                            await instance.AfterExecuteAsync(cmd).ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        if (instance is IAsyncDisposable asyncDisposable)
+                        {
+                            try
+                            {
+                                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+                        else if (instance is IDisposable disposable)
+                        {
+                            try
+                            {
+                                disposable.Dispose();
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+                    }
                 }
             }
 

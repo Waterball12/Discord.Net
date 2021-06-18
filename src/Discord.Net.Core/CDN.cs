@@ -46,6 +46,26 @@ namespace Discord
             string extension = FormatToExtension(format, avatarId);
             return $"{DiscordConfig.CDNUrl}avatars/{userId}/{avatarId}.{extension}?size={size}";
         }
+
+        /// <summary>
+        ///     Returns a user avatar URL.
+        /// </summary>
+        /// <param name="userId">The user snowflake identifier.</param>
+        /// <param name="avatarId">The avatar identifier.</param>
+        /// <param name="discriminator"></param>
+        /// <param name="size">The size of the image to return in horizontal pixels. This can be any power of two between 16 and 2048.</param>
+        /// <param name="format">The format to return.</param>
+        /// <returns>
+        ///     A URL pointing to the user's avatar in the specified size.
+        /// </returns>
+        public static string GetUserAvatarUrl(ulong userId, string avatarId, ushort discriminator, ushort size, ImageFormat format)
+        {
+            if (avatarId == null)
+                return GetDefaultUserAvatarUrl(discriminator);
+            string extension = FormatToExtension(format, avatarId);
+            return $"{DiscordConfig.CDNUrl}avatars/{userId}/{avatarId}.{extension}?size={size}";
+        }
+
         /// <summary>
         ///     Returns the default user avatar URL.
         /// </summary>

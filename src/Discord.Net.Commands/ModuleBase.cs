@@ -40,20 +40,20 @@ namespace Discord.Commands
         {
             return await Context.Channel.SendMessageAsync(message, isTTS, embed, options, allowedMentions, messageReference).ConfigureAwait(false);
         }
+
         /// <summary>
         ///     The method to execute before executing the command.
         /// </summary>
         /// <param name="command">The <see cref="CommandInfo"/> of the command to be executed.</param>
-        protected virtual void BeforeExecute(CommandInfo command)
-        {
-        }
+        protected virtual ValueTask BeforeExecuteAsync(CommandInfo command)
+            => default;
+
         /// <summary>
         ///     The method to execute after executing the command.
         /// </summary>
         /// <param name="command">The <see cref="CommandInfo"/> of the command to be executed.</param>
-        protected virtual void AfterExecute(CommandInfo command)
-        {
-        }
+        protected virtual ValueTask AfterExecuteAsync(CommandInfo command)
+            => default;
 
         /// <summary>
         ///     The method to execute when building the module.
@@ -70,8 +70,13 @@ namespace Discord.Commands
             var newValue = context as T;
             Context = newValue ?? throw new InvalidOperationException($"Invalid context type. Expected {typeof(T).Name}, got {context.GetType().Name}.");
         }
-        void IModuleBase.BeforeExecute(CommandInfo command) => BeforeExecute(command);
-        void IModuleBase.AfterExecute(CommandInfo command) => AfterExecute(command);
+
+        ValueTask IModuleBase.AfterExecuteAsync(CommandInfo command)
+            => AfterExecuteAsync(command);
+
+        ValueTask IModuleBase.BeforeExecuteAsync(CommandInfo command)
+            => BeforeExecuteAsync(command);
+
         void IModuleBase.OnModuleBuilding(CommandService commandService, ModuleBuilder builder) => OnModuleBuilding(commandService, builder);
     }
 }
