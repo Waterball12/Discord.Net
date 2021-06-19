@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Linq;
 using Model = Discord.API.Presence;
 
 namespace Discord.WebSocket
@@ -14,15 +15,22 @@ namespace Discord.WebSocket
     {
         /// <inheritdoc />
         public UserStatus Status { get; }
+        /// <inheritdoc />
+        public IImmutableSet<ClientType> ActiveClients { get; }
+        /// <inheritdoc />
+        public IImmutableList<IActivity> Activities { get; }
+        internal SocketPresence(UserStatus status, IImmutableSet<ClientType> activeClients, IImmutableList<IActivity> activities)
         internal SocketPresence(UserStatus status, IActivity activity, IImmutableSet<ClientType> activeClients, IImmutableList<IActivity> activities)
         {
             Status = status;
+            ActiveClients = activeClients ?? ImmutableHashSet<ClientType>.Empty;
+            Activities = activities ?? ImmutableList<IActivity>.Empty;
         }
         internal static SocketPresence Create(Model model)
         {
             var clients = ConvertClientTypesDict(model.ClientStatus.GetValueOrDefault());
             var activities = ConvertActivitiesList(model.Activities);
-            return new SocketPresence(model.Status, model.Game?.ToEntity(), clients, activities);
+            return new SocketPresence(model.Status, clients, activities);
         }
         /// <summary>
         ///     Creates a new <see cref="IReadOnlyCollection{T}"/> containing all of the client types
@@ -75,6 +83,7 @@ namespace Discord.WebSocket
         ///     A string that resolves to <see cref="Discord.WebSocket.SocketPresence.Status" />.
         /// </returns>
         public override string ToString() => Status.ToString();
+        private string DebuggerDisplay => $"{Status}{(Activities?.FirstOrDefault()?.Name ?? "")}";
         private string DebuggerDisplay => $"{Status}";
 
         internal SocketPresence Clone() => this;

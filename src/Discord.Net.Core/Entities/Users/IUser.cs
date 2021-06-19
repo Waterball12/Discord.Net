@@ -77,7 +77,7 @@ namespace Discord
         string Username { get; }
 
         /// <summary>
-        ///     Gets the direct message channel of this user, or create one if it does not already exist.
+        ///     Creates the direct message channel of this user.
         /// </summary>
         /// <remarks>
         ///     This method is used to obtain or create a channel used to send a direct message.
@@ -92,7 +92,7 @@ namespace Discord
         /// <example>
         ///     <para>The following example attempts to send a direct message to the target user and logs the incident should
         ///     it fail.</para>
-        ///     <code region="GetOrCreateDMChannelAsync" language="cs"
+        ///     <code region="CreateDMChannelAsync" language="cs"
         ///           source="../../../Discord.Net.Examples/Core/Entities/Users/IUser.Examples.cs"/>
         /// </example>
         /// <param name="options">The options to be used when sending the request.</param>
@@ -100,6 +100,6 @@ namespace Discord
         ///     A task that represents the asynchronous operation for getting or creating a DM channel. The task result
         ///     contains the DM channel associated with this user.
         /// </returns>
-        Task<IDMChannel> GetOrCreateDMChannelAsync(RequestOptions options = null);
+        Task<IDMChannel> CreateDMChannelAsync(RequestOptions options = null);
     }
 }

@@ -47,7 +47,7 @@ namespace Discord.WebSocket
         /// <summary>
         ///     Gets the current logged-in user.
         /// </summary>
-        public new SocketSelfUser CurrentUser { get => base.CurrentUser as SocketSelfUser; protected set => base.CurrentUser = value; }
+        public virtual new SocketSelfUser CurrentUser { get => base.CurrentUser as SocketSelfUser; protected set => base.CurrentUser = value; }
         /// <summary>
         ///     Gets a collection of guilds that the user is currently in.
         /// </summary>
@@ -70,20 +70,11 @@ namespace Discord.WebSocket
         ///     A read-only collection of private channels that the user currently partakes in.
         /// </returns>
         public abstract IReadOnlyCollection<ISocketPrivateChannel> PrivateChannels { get; }
-        /// <summary>
-        ///     Gets a collection of available voice regions.
-        /// </summary>
-        /// <returns>
-        ///     A read-only collection of voice regions that the user has access to.
-        /// </returns>
-        [Obsolete("This property is obsolete, use the GetVoiceRegionsAsync method instead.")]
-        public abstract IReadOnlyCollection<RestVoiceRegion> VoiceRegions { get; }
 
         internal BaseSocketClient(DiscordSocketConfig config, DiscordRestApiClient client)
             : base(config, client) => BaseConfig = config;
         private static DiscordSocketApiClient CreateApiClient(DiscordSocketConfig config)
             => new DiscordSocketApiClient(config.RestClientProvider, config.WebSocketProvider, DiscordRestConfig.UserAgent,
-                rateLimitPrecision: config.RateLimitPrecision,
 				useSystemClock: config.UseSystemClock);
 
         /// <summary>
@@ -176,6 +167,12 @@ namespace Discord.WebSocket
         /// <param name="name">The name of the game.</param>
         /// <param name="streamUrl">If streaming, the URL of the stream. Must be a valid Twitch URL.</param>
         /// <param name="type">The type of the game.</param>
+        /// <remarks>
+        ///     <note type="warning">
+        ///         Bot accounts cannot set <see cref="ActivityType.CustomStatus"/> as their activity
+        ///         type and it will have no effect.
+        ///     </note>
+        /// </remarks>
         /// <returns>
         ///     A task that represents the asynchronous set operation.
         /// </returns>
@@ -187,6 +184,10 @@ namespace Discord.WebSocket
         ///     This method sets the <paramref name="activity"/> of the user. 
         ///     <note type="note">
         ///         Discord will only accept setting of name and the type of activity.
+        ///     </note>
+        ///     <note type="warning">
+        ///         Bot accounts cannot set <see cref="ActivityType.CustomStatus"/> as their activity
+        ///         type and it will have no effect.
         ///     </note>
         ///     <note type="warning">
         ///         Rich Presence cannot be set via this method or client. Rich Presence is strictly limited to RPC
@@ -231,6 +232,19 @@ namespace Discord.WebSocket
             => Task.FromResult<IUser>(GetUser(id));
         
         /// <inheritdoc />
+        Task<IUser> IDiscordClient.GetUserAsync(string username, string discriminator, RequestOptions options)
+            => Task.FromResult<IUser>(GetUser(username, discriminator));
+
+        /// <inheritdoc />
+        async Task<IVoiceRegion> IDiscordClient.GetVoiceRegionAsync(string id, RequestOptions options)
+        {
+            return await GetVoiceRegionAsync(id).ConfigureAwait(false);
+        }
+        /// <inheritdoc />
+        async Task<IReadOnlyCollection<IVoiceRegion>> IDiscordClient.GetVoiceRegionsAsync(RequestOptions options)
+        {
+            return await GetVoiceRegionsAsync().ConfigureAwait(false);
+        }
         Task<IReadOnlyCollection<IVoiceRegion>> IDiscordClient.GetVoiceRegionsAsync(RequestOptions options)
             => Task.FromResult<IReadOnlyCollection<IVoiceRegion>>(VoiceRegions);
     }

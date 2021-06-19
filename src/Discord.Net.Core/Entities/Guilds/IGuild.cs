@@ -27,13 +27,6 @@ namespace Discord
         /// </returns>
         int AFKTimeout { get; }
         /// <summary>
-        ///     Gets a value that indicates whether this guild is embeddable (i.e. can use widget).
-        /// </summary>
-        /// <returns>
-        ///     <see langword="true" /> if this guild has a widget enabled; otherwise <see langword="false" />.
-        /// </returns>
-        bool IsEmbeddable { get; }
-        /// <summary>
         ///     Gets a value that indicates whether this guild has the widget enabled.
         /// </summary>
         /// <returns>
@@ -130,29 +123,6 @@ namespace Discord
         ///     none is set.
         /// </returns>
         ulong? AFKChannelId { get; }
-        /// <summary>
-        ///     Gets the ID of the default channel for this guild.
-        /// </summary>
-        /// <remarks>
-        ///     This property retrieves the snowflake identifier of the first viewable text channel for this guild.
-        ///     <note type="warning">
-        ///         This channel does not guarantee the user can send message to it, as it only looks for the first viewable
-        ///         text channel.
-        ///     </note>
-        /// </remarks>
-        /// <returns>
-        ///     A <see langword="ulong"/> representing the snowflake identifier of the default text channel; <c>0</c> if
-        ///     none can be found.
-        /// </returns>
-        ulong DefaultChannelId { get; }
-        /// <summary>
-        ///     Gets the ID of the widget embed channel of this guild.
-        /// </summary>
-        /// <returns>
-        ///     A <see langword="ulong"/> representing the snowflake identifier of the embedded channel found within the
-        ///     widget settings of this guild; <see langword="null" /> if none is set.
-        /// </returns>
-        ulong? EmbedChannelId { get; }
         /// <summary>
         ///     Gets the ID of the channel assigned to the widget of this guild.
         /// </summary>
@@ -355,16 +325,6 @@ namespace Discord
         ///     A task that represents the asynchronous modification operation.
         /// </returns>
         Task ModifyAsync(Action<GuildProperties> func, RequestOptions options = null);
-        /// <summary>
-        ///     Modifies this guild's embed channel.
-        /// </summary>
-        /// <param name="func">The delegate containing the properties to modify the guild widget with.</param>
-        /// <param name="options">The options to be used when sending the request.</param>
-        /// <returns>
-        ///     A task that represents the asynchronous modification operation.
-        /// </returns>
-        [Obsolete("This endpoint is deprecated, use ModifyWidgetAsync instead.")]
-        Task ModifyEmbedAsync(Action<GuildEmbedProperties> func, RequestOptions options = null);
         /// <summary>
         ///     Modifies this guild's widget.
         /// </summary>
@@ -873,6 +833,15 @@ namespace Discord
         /// </returns>
         Task<IReadOnlyCollection<IWebhook>> GetWebhooksAsync(RequestOptions options = null);
 
+        /// <summary>
+        ///     Gets a collection of emotes from this guild.
+        /// </summary>
+        /// <param name="options">The options to be used when sending the request.</param>
+        /// <returns>
+        ///     A task that represents the asynchronous get operation. The task result contains a read-only collection
+        ///     of emotes found within the guild.
+        /// </returns>
+        Task<IReadOnlyCollection<GuildEmote>> GetEmotesAsync(RequestOptions options = null);
         /// <summary>
         ///     Gets a specific emote from this guild.
         /// </summary>
